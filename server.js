@@ -24,7 +24,14 @@ app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
-
+app.get("/api/:date?", (req, res) => {
+  let date = req.params.date;
+  let dateObj = date == undefined ? new Date() : 
+                date == parseInt(date) ? new Date(parseInt(date)) : 
+                new Date(date);
+  dateObj == "Invalid Date" ? res.json({error: "Invalid Date"}) :
+   res.json({unix: dateObj.getTime(), utc: dateObj.toUTCString()});
+});
 
 // listen for requests :)
 var listener = app.listen(process.env.PORT, function () {
